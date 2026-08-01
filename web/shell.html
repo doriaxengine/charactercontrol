@@ -454,12 +454,30 @@
       resizeTimer = window.setTimeout(resizeGame, 100);
     });
 
+    // Keep focus on the canvas when interacting with the game stage.
+    stage.addEventListener('pointerdown', function() {
+      canvas.focus({ preventScroll: true });
+    });
+
+    // Space/arrows scroll the page by default; block that while the canvas is focused.
+    window.addEventListener('keydown', function(e) {
+      if (document.activeElement !== canvas) return;
+      var code = e.code || e.key;
+      if (
+        code === 'Space' || code === ' ' ||
+        code === 'ArrowUp' || code === 'ArrowDown' ||
+        code === 'ArrowLeft' || code === 'ArrowRight'
+      ) {
+        e.preventDefault();
+      }
+    });
+
     var Module = {
       canvas: canvas,
       preRun: [registerCanvasTargets],
       postRun: [function() {
         resizeGame();
-        canvas.focus();
+        canvas.focus({ preventScroll: true });
         loading.classList.add('hidden');
       }],
 
