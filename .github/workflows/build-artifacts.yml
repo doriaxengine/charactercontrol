@@ -1,0 +1,190 @@
+name: Build Artifacts
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  APP_NAME: CharacterControl
+  EMSDK_VERSION: 5.0.6
+  EXPORT_DIR: .ci-build/export
+  BUILD_DIR: .ci-build/build
+  PACKAGE_DIR: .ci-build/package
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libgl1-mesa-dev libglfw3-dev libxi-dev libxcursor-dev
+
+      - name: Download Doriax editor
+        id: editor
+        uses: doriaxengine/download-doriax-editor@v1
+        with:
+          platform: ${{ matrix.platform }}
+          github-token: ${{ github.token }}
+
+      - name: Export project
+        env:
+          EDITOR_PATH: ${{ steps.editor.outputs.editor-path }}
+        run: |
+          mkdir -p .ci-build
+          if [[ "$RUNNER_OS" == 'macOS' ]]; then
+            export DYLD_LIBRARY_PATH="$(dirname "$EDITOR_PATH")${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
+          fi
+          "$EDITOR_PATH" export \
+            --project . \
+            --out "$EXPORT_DIR" \
+            --platform "${{ matrix.platform }}"
+
+      - name: Configure
+        run: |
+          cmake \
+            -S "$EXPORT_DIR" \
+            -B "$BUILD_DIR" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DAPP_NAME="$APP_NAME"
+
+      - name: Build
+        run: |
+          cmake --build "$BUILD_DIR" --config Release
+
+      - name: Install
+        run: |
+          cmake --install "$BUILD_DIR" --config Release --prefix "$PACKAGE_DIR"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-${{ matrix.platform }}
+          path: .ci-build/package/bin
+          if-no-files-found: error
+          retention-days: 14
+
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      - name: Setup emsdk
+        uses: emscripten-core/setup-emsdk@v16
+        with:
+          version: ${{ env.EMSDK_VERSION }}
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build libasound2-dev libgl1-mesa-dev libglfw3-dev libxi-dev libxcursor-dev libopengl0
+
+      - name: Download Doriax editor
+        id: editor
+        uses: doriaxengine/download-doriax-editor@v1
+        with:
+          platform: linux
+          github-token: ${{ github.token }}
+
+      - name: Export project
+        env:
+          EDITOR_PATH: ${{ steps.editor.outputs.editor-path }}
+        run: |
+          mkdir -p .ci-build
+          "$EDITOR_PATH" export \
+            --project . \
+            --out "$EXPORT_DIR" \
+            --platform web
+
+      - name: Configure
+        run: |
+          emcmake cmake \
+            -S "$EXPORT_DIR" \
+            -B "$BUILD_DIR" \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DAPP_NAME="$APP_NAME" \
+            -DEM_ADDITIONAL_LINK_FLAGS="--shell-file ${{ github.workspace }}/web/shell.html"
+
+      - name: Build
+        run: |
+          cmake --build "$BUILD_DIR" --config Release
+
+      - name: Prepare Pages artifact
+        id: pages
+        run: |
+          site_html=$(find "$BUILD_DIR" -type f -name '*.html' | head -n 1)
+          if [[ -z "$site_html" ]]; then
+            echo 'No HTML entry point found in the web build.' >&2
+            exit 1
+          fi
+
+          site_dir=$(dirname "$site_html")
+          if [[ ! -f "$site_dir/index.html" ]]; then
+            cp "$site_html" "$site_dir/index.html"
+          fi
+          touch "$site_dir/.nojekyll"
+
+          echo "site_dir=$site_dir" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ steps.pages.outputs.site_dir }}
+
+  deploy-pages:
+    needs: web
+    if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    concurrency:
+      group: github-pages
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#060a14">
+  <meta name="description" content="A simple 3D character control example made with Doriax Engine.">
+  <title>Character Control — Doriax Engine</title>
+  <link rel="icon" type="image/png" href="https://www.doriax.org/logo/logo_part1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #060a14;
+      --bg-soft: #08101f;
+      --card: #0c1524;
+      --card-hover: #101c30;
+      --border: rgba(120, 170, 255, 0.12);
+      --border-strong: rgba(120, 170, 255, 0.26);
+      --text: #eaf1ff;
+      --muted: #9fb2d0;
+      --accent: #4b93ff;
+      --accent-light: #38d0ff;
+      --radius: 8px;
+      --shadow: 0 20px 70px rgba(0, 6, 20, 0.62);
+      --font-sans: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+      font-family: var(--font-sans);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 50% 15%, rgba(47, 107, 255, 0.13), transparent 32rem),
+        var(--bg);
+      color: var(--text);
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      content: "";
+      background-image:
+        linear-gradient(rgba(120, 170, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120, 170, 255, 0.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .navbar,
+    main,
+    footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .navbar {
+      height: 64px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(6, 10, 20, 0.86);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav-inner,
+    .page,
+    .footer-inner {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav-inner {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      display: block;
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .brand-wordmark {
+      display: block;
+      width: auto;
+      height: 18px;
+      object-fit: contain;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: color 180ms ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    main {
+      padding: 42px 0 52px;
+    }
+
+    .hero {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(56, 208, 255, 0.22);
+      border-left: 3px solid var(--accent-light);
+      border-radius: 0 4px 4px 0;
+      padding: 5px 13px;
+      background: rgba(56, 208, 255, 0.08);
+      color: var(--accent-light);
+      font: 600 0.7rem/1.2 var(--font-mono);
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      box-shadow: 0 0 10px var(--accent-light);
+      content: "";
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.9rem, 5vw, 3.1rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(0.94rem, 2vw, 1.08rem);
+    }
+
+    .game-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      outline: 0;
+      touch-action: none;
+    }
+
+    .loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle, rgba(47, 107, 255, 0.12), transparent 55%),
+        var(--card);
+      transition: opacity 300ms ease, visibility 300ms ease;
+    }
+
+    .loading.hidden {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .loading-content {
+      width: min(320px, 72%);
+      text-align: center;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 18px;
+      border: 5px solid rgba(75, 147, 255, 0.18);
+      border-top-color: var(--accent-light);
+      border-radius: 50%;
+      animation: spin 800ms linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #status {
+      min-height: 1.3em;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      letter-spacing: 0.06em;
+    }
+
+    .progress-track {
+      height: 7px;
+      overflow: hidden;
+      border: 1px solid var(--border-strong);
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    #progress {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      box-shadow: 0 0 14px rgba(56, 208, 255, 0.5);
+      transition: width 200ms ease;
+    }
+
+    .game-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-top: 1px solid var(--border);
+      padding: 17px 20px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    kbd {
+      min-width: 28px;
+      border: 1px solid var(--border-strong);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 3px 7px;
+      background: var(--card-hover);
+      color: var(--text);
+      font: 600 0.72rem/1.25 var(--font-mono);
+      text-align: center;
+    }
+
+    .source-link {
+      color: #6da0ff;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: color 180ms ease;
+    }
+
+    .source-link:hover {
+      color: var(--accent-light);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      background: var(--bg-soft);
+      color: #5f7291;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: var(--muted);
+    }
+
+    @media (max-width: 700px) {
+      .nav-inner,
+      .page,
+      .footer-inner {
+        width: min(100% - 24px, 1120px);
+      }
+
+      main {
+        padding-top: 30px;
+      }
+
+      .game-info {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .nav-link {
+        font-size: 0.78rem;
+      }
+
+      .hero {
+        margin-bottom: 18px;
+      }
+
+      .controls-copy {
+        flex-basis: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="brand" href="https://doriax.org" target="_blank" rel="noopener noreferrer" aria-label="Doriax Engine website">
+        <img class="brand-mark" src="https://www.doriax.org/logo/logo_part1.png" alt="">
+        <img class="brand-wordmark" src="https://www.doriax.org/logo/logo_part2.png" alt="Doriax">
+      </a>
+      <a class="nav-link" href="https://github.com/doriaxengine/charactercontrol" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page">
+      <header class="hero">
+        <span class="eyebrow">Interactive example</span>
+        <h1>Character Control</h1>
+        <p class="subtitle">Control a character with real-time 3D physics and animations.</p>
+      </header>
+
+      <section class="game-card" aria-label="Character Control demo">
+        <div class="stage" id="stage">
+          <canvas id="canvas" tabindex="0" oncontextmenu="event.preventDefault()" aria-label="Interactive game canvas"></canvas>
+          <div class="loading" id="loading" role="status" aria-live="polite">
+            <div class="loading-content">
+              <div class="spinner" aria-hidden="true"></div>
+              <div id="status">Downloading…</div>
+              <div class="progress-track" aria-hidden="true">
+                <div id="progress"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="game-info">
+          <div class="controls" aria-label="Controls">
+            <span class="controls-copy">Move</span>
+            <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+            <kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd>
+            <span class="controls-copy">or gamepad</span>
+            <span class="controls-copy">Camera</span>
+            <kbd>LMB</kbd>
+            <span class="controls-copy">Jump</span>
+            <kbd>Space</kbd>
+          </div>
+          <a class="source-link" href="https://github.com/doriaxengine/charactercontrol" target="_blank" rel="noopener noreferrer">Source code ↗</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      Built with <a href="https://doriax.org" target="_blank" rel="noopener noreferrer">Doriax Engine</a>.
+    </div>
+  </footer>
+
+  <script>
+    var canvas = document.getElementById('canvas');
+    var stage = document.getElementById('stage');
+    var loading = document.getElementById('loading');
+    var statusElement = document.getElementById('status');
+    var progressElement = document.getElementById('progress');
+    var changeCanvasSize = null;
+    var resizeTimer = null;
+    var lastWidth = 0;
+    var lastHeight = 0;
+    var totalDependencies = 0;
+
+    function setProgress(value) {
+      progressElement.style.width = Math.max(0, Math.min(100, value)) + '%';
+    }
+
+    function registerCanvasTargets() {
+      if (typeof specialHTMLTargets === 'undefined') return;
+      specialHTMLTargets[''] = canvas;
+      specialHTMLTargets['#canvas'] = canvas;
+      specialHTMLTargets['!canvas'] = canvas;
+    }
+
+    function resizeGame() {
+      if (!stage) return;
+      if (!changeCanvasSize && typeof Module.cwrap === 'function') {
+        changeCanvasSize = Module.cwrap('changeCanvasSize', null, ['number', 'number']);
+      }
+      if (!changeCanvasSize) return;
+
+      var width = Math.floor(stage.clientWidth);
+      var height = Math.floor(stage.clientHeight);
+      if (!width || !height || (width === lastWidth && height === lastHeight)) return;
+
+      lastWidth = width;
+      lastHeight = height;
+      registerCanvasTargets();
+      changeCanvasSize(width, height);
+    }
+
+    window.addEventListener('resize', function() {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(resizeGame, 100);
+    });
+
+    var Module = {
+      canvas: canvas,
+      preRun: [registerCanvasTargets],
+      postRun: [function() {
+        resizeGame();
+        canvas.focus();
+        loading.classList.add('hidden');
+      }],
+
+      print: function(text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+        console.log(text);
+      },
+
+      printErr: function(text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+        console.error(text);
+      },
+
+      setStatus: function(text) {
+        if (!text) {
+          setProgress(100);
+          return;
+        }
+
+        var match = text.match(/\((\d+(?:\.\d+)?)\/(\d+)\)/);
+        if (match) {
+          var completed = Number(match[1]);
+          var total = Number(match[2]);
+          if (total > 0) setProgress(20 + 80 * completed / total);
+        }
+        statusElement.textContent = text.replace(/\s*\(\d+(?:\.\d+)?\/\d+\)\s*$/, '');
+      },
+
+      totalDependencies: 0,
+      monitorRunDependencies: function(left) {
+        totalDependencies = Math.max(totalDependencies, left);
+        if (left === 0) {
+          setProgress(20);
+        } else if (totalDependencies > 0) {
+          setProgress(20 * (totalDependencies - left) / totalDependencies);
+        }
+      },
+
+      onRuntimeInitialized: function() {
+        setProgress(100);
+      }
+    };
+
+    Module.setStatus('Downloading…');
+
+    window.onerror = function() {
+      statusElement.textContent = 'Unable to start. Check the browser console.';
+      statusElement.style.color = '#ff7b8b';
+      Module.setStatus = function(text) {
+        if (text) Module.printErr('[post-exception status] ' + text);
+      };
+    };
+  </script>
+
+  {{{ SCRIPT }}}
+</body>
+</html>
