@@ -1,0 +1,390 @@
+id: 2
+name: UI Scene
+scene:
+  backgroundColor: [0.525, 0.525, 0.525, 1]
+  shadowQuality: low
+  lightState: off
+  globalIlluminationIntensity: 0.1
+  globalIlluminationColor: [1, 1, 1]
+  ambientLight2DIntensity: 1
+  ambientLight2DColor: [1, 1, 1]
+  shadow2DQuality: low
+  ssaoEnabled: false
+  ssaoRadius: 0.5
+  ssaoIntensity: 1
+  ssaoBias: 0.025
+  ssrEnabled: false
+  ssrMaxDistance: 8
+  ssrThickness: 0.5
+  ssrMaxSteps: 48
+  ssrIntensity: 1
+  ssrBlur: 0
+  gravity2D: [0, -9.81]
+  gravity3D: [0, -9.81, 0]
+  fixedResolutionEnabled: false
+  fixedResolutionWidth: 640
+  fixedResolutionHeight: 360
+  fixedResolutionFilter: nearest
+  enableUIEvents: not_set
+sceneType: scene_ui
+mainCamera: 0
+maxValues:
+  maxSubmeshes: 0
+  maxTilemapTilesRect: 0
+  maxTilemapTiles: 0
+  maxExternalBuffers: 0
+  maxSpriteFrames: 0
+shaderKeys:
+  - 25769803778
+entities:
+  - type: Entity
+    entity: 1001
+    name: Text
+    components:
+      transform:
+        position: [31.000069, 15.000002, 0]
+        rotation: [1, 0, 0, 0]
+        scale: [1, 1, 1]
+        worldPosition: [31.000069, 15.000002, 0]
+        worldRotation: [1, 0, 0, 0]
+        worldScale: [1, 1, 1]
+        localMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [31.000069, 15.000002, 0, 1]]
+        modelMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [31.000069, 15.000002, 0, 1]]
+        normalMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+        visible: true
+        billboardRotation: [1, 0, 0, 0]
+        billboard: false
+        fakeBillboard: false
+        cylindricalBillboard: false
+      ui:
+        buffer:
+          type: vertex_buffer
+          usage: dynamic
+          stride: 20
+          size: 3920
+          count: 196
+          renderAttributes: true
+          instanceBuffer: false
+          attributes:
+            - type: position
+              dataType: float
+              bufferName: ""
+              elements: 3
+              offset: 0
+              count: 196
+              normalized: true
+              perInstance: false
+            - type: texcoord1
+              dataType: float
+              bufferName: ""
+              elements: 2
+              offset: 12
+              count: 196
+              normalized: true
+              perInstance: false
+          data: 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
+        indices:
+          type: index_buffer
+          usage: dynamic
+          stride: 2
+          size: 588
+          count: 294
+          renderAttributes: true
+          instanceBuffer: false
+          attributes:
+            - type: index
+              dataType: unsigned_short
+              bufferName: ""
+              elements: 1
+              offset: 0
+              count: 294
+              normalized: true
+              perInstance: false
+          data: AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4ADAAOAA8AEAARABIAEAASABMAFAAVABYAFAAWABcAGAAZABoAGAAaABsAHAAdAB4AHAAeAB8AIAAhACIAIAAiACMAJAAlACYAJAAmACcAKAApACoAKAAqACsALAAtAC4ALAAuAC8AMAAxADIAMAAyADMANAA1ADYANAA2ADcAOAA5ADoAOAA6ADsAPAA9AD4APAA+AD8AQABBAEIAQABCAEMARABFAEYARABGAEcASABJAEoASABKAEsATABNAE4ATABOAE8AUABRAFIAUABSAFMAVABVAFYAVABWAFcAWABZAFoAWABaAFsAXABdAF4AXABeAF8AYABhAGIAYABiAGMAZABlAGYAZABmAGcAaABpAGoAaABqAGsAbABtAG4AbABuAG8AcABxAHIAcAByAHMAdAB1AHYAdAB2AHcAeAB5AHoAeAB6AHsAfAB9AH4AfAB+AH8AgACBAIIAgACCAIMAhACFAIYAhACGAIcAiACJAIoAiACKAIsAjACNAI4AjACOAI8AkACRAJIAkACSAJMAlACVAJYAlACWAJcAmACZAJoAmACaAJsAnACdAJ4AnACeAJ8AoAChAKIAoACiAKMApAClAKYApACmAKcAqACpAKoAqACqAKsArACtAK4ArACuAK8AsACxALIAsACyALMAtAC1ALYAtAC2ALcAuAC5ALoAuAC6ALsAvAC9AL4AvAC+AL8AwADBAMIAwADCAMMA
+        minBufferCount: 400
+        minIndicesCount: 600
+        primitiveType: triangles
+        vertexCount: 294
+        aabb:
+          min: [0, 0, 0]
+          max: [373, 19.833334, 0]
+        worldAABB:
+          min: [31.000069, 15.000002, 0]
+          max: [404.00006, 34.833336, 0]
+        texture:
+          textureType: 2D
+          source: id
+          id: font|20
+          minFilter: linear
+          magFilter: linear
+          wrapU: repeat
+          wrapV: repeat
+          releaseDataAfterLoad: false
+        color: [1, 1, 1, 1]
+        automaticFlipY: true
+        flipY: false
+        pointerMoved: false
+        focused: false
+      uilayout:
+        width: 373
+        height: 20
+        anchorPointLeft: 0
+        anchorPointTop: 0
+        anchorPointRight: 0
+        anchorPointBottom: 0
+        anchorOffsetLeft: 31
+        anchorOffsetTop: 15
+        anchorOffsetRight: 404
+        anchorOffsetBottom: 35
+        positionOffset: [0, 0]
+        anchorPreset: NONE
+        usingAnchors: false
+        panel: 0
+        containerBoxIndex: -1
+        scissor: [0, 0, 0, 0]
+        ignoreScissor: false
+        ignoreEvents: false
+      text:
+        font: ""
+        text: WASD, arrow keys or joystick to control character
+        fontSize: 20
+        multiline: true
+        maxTextSize: 100
+        fixedWidth: false
+        fixedHeight: false
+        pivotBaseline: false
+        pivotCentered: false
+  - type: Entity
+    entity: 1002
+    name: Text 2
+    components:
+      transform:
+        position: [31.000061, 39, 0]
+        rotation: [1, 0, 0, 0]
+        scale: [1, 1, 1]
+        worldPosition: [31.000061, 39, 0]
+        worldRotation: [1, 0, 0, 0]
+        worldScale: [1, 1, 1]
+        localMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [31.000061, 39, 0, 1]]
+        modelMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [31.000061, 39, 0, 1]]
+        normalMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+        visible: true
+        billboardRotation: [1, 0, 0, 0]
+        billboard: false
+        fakeBillboard: false
+        cylindricalBillboard: false
+      ui:
+        buffer:
+          type: vertex_buffer
+          usage: dynamic
+          stride: 20
+          size: 2240
+          count: 112
+          renderAttributes: true
+          instanceBuffer: false
+          attributes:
+            - type: position
+              dataType: float
+              bufferName: ""
+              elements: 3
+              offset: 0
+              count: 112
+              normalized: true
+              perInstance: false
+            - type: texcoord1
+              dataType: float
+              bufferName: ""
+              elements: 2
+              offset: 12
+              count: 112
+              normalized: true
+              perInstance: false
+          data: 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
+        indices:
+          type: index_buffer
+          usage: dynamic
+          stride: 2
+          size: 336
+          count: 168
+          renderAttributes: true
+          instanceBuffer: false
+          attributes:
+            - type: index
+              dataType: unsigned_short
+              bufferName: ""
+              elements: 1
+              offset: 0
+              count: 168
+              normalized: true
+              perInstance: false
+          data: AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4ADAAOAA8AEAARABIAEAASABMAFAAVABYAFAAWABcAGAAZABoAGAAaABsAHAAdAB4AHAAeAB8AIAAhACIAIAAiACMAJAAlACYAJAAmACcAKAApACoAKAAqACsALAAtAC4ALAAuAC8AMAAxADIAMAAyADMANAA1ADYANAA2ADcAOAA5ADoAOAA6ADsAPAA9AD4APAA+AD8AQABBAEIAQABCAEMARABFAEYARABGAEcASABJAEoASABKAEsATABNAE4ATABOAE8AUABRAFIAUABSAFMAVABVAFYAVABWAFcAWABZAFoAWABaAFsAXABdAF4AXABeAF8AYABhAGIAYABiAGMAZABlAGYAZABmAGcAaABpAGoAaABqAGsAbABtAG4AbABuAG8A
+        minBufferCount: 400
+        minIndicesCount: 600
+        primitiveType: triangles
+        vertexCount: 168
+        aabb:
+          min: [0, 0, 0]
+          max: [219, 16.833334, 0]
+        worldAABB:
+          min: [31.000061, 39, 0]
+          max: [250.00006, 55.833336, 0]
+        texture:
+          textureType: 2D
+          source: id
+          id: font|20
+          minFilter: linear
+          magFilter: linear
+          wrapU: repeat
+          wrapV: repeat
+          releaseDataAfterLoad: false
+        color: [1, 1, 1, 1]
+        automaticFlipY: true
+        flipY: false
+        pointerMoved: false
+        focused: false
+      uilayout:
+        width: 219
+        height: 20
+        anchorPointLeft: 0
+        anchorPointTop: 0
+        anchorPointRight: 0
+        anchorPointBottom: 0
+        anchorOffsetLeft: 31
+        anchorOffsetTop: 39
+        anchorOffsetRight: 250
+        anchorOffsetBottom: 59
+        positionOffset: [0, 0]
+        anchorPreset: NONE
+        usingAnchors: false
+        panel: 0
+        containerBoxIndex: -1
+        scissor: [0, 0, 0, 0]
+        ignoreScissor: false
+        ignoreEvents: false
+      text:
+        font: ""
+        text: Mouse left to control camera
+        fontSize: 20
+        multiline: true
+        maxTextSize: 100
+        fixedWidth: false
+        fixedHeight: false
+        pivotBaseline: false
+        pivotCentered: false
+  - type: Entity
+    entity: 1003
+    name: Text 3
+    components:
+      transform:
+        position: [30.999992, 64.00002, 0]
+        rotation: [1, 0, 0, 0]
+        scale: [1, 1, 1]
+        worldPosition: [30.999992, 64.00002, 0]
+        worldRotation: [1, 0, 0, 0]
+        worldScale: [1, 1, 1]
+        localMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [30.999992, 64.00002, 0, 1]]
+        modelMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [30.999992, 64.00002, 0, 1]]
+        normalMatrix: [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+        visible: true
+        billboardRotation: [1, 0, 0, 0]
+        billboard: false
+        fakeBillboard: false
+        cylindricalBillboard: false
+      ui:
+        buffer:
+          type: vertex_buffer
+          usage: dynamic
+          stride: 20
+          size: 1040
+          count: 52
+          renderAttributes: true
+          instanceBuffer: false
+          attributes:
+            - type: position
+              dataType: float
+              bufferName: ""
+              elements: 3
+              offset: 0
+              count: 52
+              normalized: true
+              perInstance: false
+            - type: texcoord1
+              dataType: float
+              bufferName: ""
+              elements: 2
+              offset: 12
+              count: 52
+              normalized: true
+              perInstance: false
+          data: AAAAAFhVNUAAAAAAAABnPwAAADsAACBBWFU1QAAAAAAAAGw/AAAAOwAAIEGrqoZBAAAAAAAAbD8AAPA8AAAAAKuqhkEAAAAAAABnPwAA8DwAADBBrKq6QAAAAAAAAN0+AAAgPQAAmEGsqrpAAAAAAAAA5T4AACA9AACYQauqnkEAAAAAAADlPgAAiD0AADBBq6qeQQAAAAAAAN0+AACIPQAAoEGsqrpAAAAAAAAAOD4AACA9AADoQayqukAAAAAAAABKPgAAID0AAOhBq6qGQQAAAAAAAEo+AAB4PQAAoEGrqoZBAAAAAAAAOD4AAHg9AADoQayqukAAAAAAAABePgAAID0AABhCrKq6QAAAAAAAAHA+AAAgPQAAGEKrqoZBAAAAAAAAcD4AAHg9AADoQauqhkEAAAAAAABePgAAeD0AABhCrKq6QAAAAAAAAIM+AAAgPQAAPEKsqrpAAAAAAAAAjD4AACA9AAA8QquqhkEAAAAAAACMPgAAeD0AABhCq6qGQQAAAAAAAIM+AAB4PQAAPEJWVX1BAAAAAAAAADsAAAA7AAA8QlZVfUEAAAAAAAAAOwAAADsAADxCVlV9QQAAAAAAAAA7AAAAOwAAPEJWVX1BAAAAAAAAADsAAAA7AABMQlhVdUAAAAAAAAD/PgAAID0AAGBCWFV1QAAAAAAAAAI/AAAgPQAAYEKrqoZBAAAAAAAAAj8AAIQ9AABMQquqhkEAAAAAAAD/PgAAhD0AAGRCrKq6QAAAAAAAANM+AAAgPQAAhEKsqrpAAAAAAAAA3D4AACA9AACEQquqhkEAAAAAAADcPgAAeD0AAGRCq6qGQQAAAAAAANM+AAB4PQAAhEJWVX1BAAAAAAAAADsAAAA7AACEQlZVfUEAAAAAAAAAOwAAADsAAIRCVlV9QQAAAAAAAAA7AAAAOwAAhEJWVX1BAAAAAAAAADsAAAA7AACMQlhVNUAAAAAAAACrPgAAID0AAJRCWFU1QAAAAAAAAK8+AAAgPQAAlEKrqp5BAAAAAAAArz4AAJQ9AACMQquqnkEAAAAAAACrPgAAlD0AAJhCrKq6QAAAAAAAgAI/AAAgPQAAqEKsqrpAAAAAAACABj8AACA9AACoQquqhkEAAAAAAIAGPwAAeD0AAJhCq6qGQQAAAAAAgAI/AAB4PQAAqkKsqrpAAAAAAAAAvD4AACA9AADEQqyqukAAAAAAAADJPgAAID0AAMRCVlV9QQAAAAAAAMk+AABwPQAAqkJWVX1BAAAAAAAAvD4AAHA9AADIQqyqukAAAAAAAADdPgAAID0AANhCrKq6QAAAAAAAAOU+AAAgPQAA2EKrqp5BAAAAAAAA5T4AAIg9AADIQquqnkEAAAAAAADdPgAAiD0=
+        indices:
+          type: index_buffer
+          usage: dynamic
+          stride: 2
+          size: 156
+          count: 78
+          renderAttributes: true
+          instanceBuffer: false
+          attributes:
+            - type: index
+              dataType: unsigned_short
+              bufferName: ""
+              elements: 1
+              offset: 0
+              count: 78
+              normalized: true
+              perInstance: false
+          data: AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4ADAAOAA8AEAARABIAEAASABMAFAAVABYAFAAWABcAGAAZABoAGAAaABsAHAAdAB4AHAAeAB8AIAAhACIAIAAiACMAJAAlACYAJAAmACcAKAApACoAKAAqACsALAAtAC4ALAAuAC8AMAAxADIAMAAyADMA
+        minBufferCount: 400
+        minIndicesCount: 600
+        primitiveType: triangles
+        vertexCount: 78
+        aabb:
+          min: [0, 0, 0]
+          max: [108, 19.833334, 0]
+        worldAABB:
+          min: [30.999992, 64.00002, 0]
+          max: [139, 83.83336, 0]
+        texture:
+          textureType: 2D
+          source: id
+          id: font|20
+          minFilter: linear
+          magFilter: linear
+          wrapU: repeat
+          wrapV: repeat
+          releaseDataAfterLoad: false
+        color: [1, 1, 1, 1]
+        automaticFlipY: true
+        flipY: false
+        pointerMoved: false
+        focused: false
+      uilayout:
+        width: 108
+        height: 20
+        anchorPointLeft: 0
+        anchorPointTop: 0
+        anchorPointRight: 0
+        anchorPointBottom: 0
+        anchorOffsetLeft: 30
+        anchorOffsetTop: 64
+        anchorOffsetRight: 139
+        anchorOffsetBottom: 84
+        positionOffset: [0, 0]
+        anchorPreset: NONE
+        usingAnchors: false
+        panel: 0
+        containerBoxIndex: -1
+        scissor: [0, 0, 0, 0]
+        ignoreScissor: false
+        ignoreEvents: false
+      text:
+        font: ""
+        text: Space to jump
+        fontSize: 20
+        multiline: true
+        maxTextSize: 100
+        fixedWidth: false
+        fixedHeight: false
+        pivotBaseline: false
+        pivotCentered: false
