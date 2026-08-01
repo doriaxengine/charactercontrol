@@ -4,5 +4,5 @@ This is a simple example of character control movement using 3D physics and anim
 
 ## Assets
 
-Animated Model from https://app.mesh2motion.org/
-`Dirt_01.png` from https://opengameart.org/content/tileable-dirt-textures
+* `person.glb`  Model - https://app.mesh2motion.org/
+* `Dirt_01.png` - https://opengameart.org/content/tileable-dirt-textures
