@@ -28,12 +28,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # backend must match the GRAPHIC_BACKEND the exported CMake defaults to
           - os: ubuntu-latest
             platform: linux
+            backend: opengl
           - os: windows-latest
             platform: windows
+            backend: opengl
           - os: macos-latest
             platform: macos
+            backend: metal-macos
 
     steps:
       - name: Checkout
@@ -68,7 +72,7 @@ jobs:
           "$EDITOR_PATH" export \
             --project . \
             --out "$EXPORT_DIR" \
-            --platform "${{ matrix.platform }}"
+            --backend "${{ matrix.backend }}"
 
       - name: Configure
         run: |
@@ -135,7 +139,7 @@ jobs:
           "$EDITOR_PATH" export \
             --project . \
             --out "$EXPORT_DIR" \
-            --platform web
+            --backend opengles
 
       - name: Configure
         run: |
