@@ -91,7 +91,7 @@ jobs:
           cmake --install "$BUILD_DIR" --config Release --prefix "$PACKAGE_DIR"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ env.APP_NAME }}-${{ matrix.platform }}
           path: .ci-build/package/bin
