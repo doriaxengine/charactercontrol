@@ -3,30 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#060a14">
+  <meta name="theme-color" content="#101010">
   <meta name="description" content="A simple 3D character control example made with Doriax Engine.">
   <title>Character Control — Doriax Engine</title>
   <link rel="icon" type="image/png" href="https://www.doriax.org/logo/logo_part1.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       color-scheme: dark;
-      --bg: #060a14;
-      --bg-soft: #08101f;
-      --card: #0c1524;
-      --card-hover: #101c30;
-      --border: rgba(120, 170, 255, 0.12);
-      --border-strong: rgba(120, 170, 255, 0.26);
-      --text: #eaf1ff;
-      --muted: #9fb2d0;
-      --accent: #4b93ff;
-      --accent-light: #38d0ff;
+      --bg: #101010;
+      --bg-soft: #161616;
+      --card: #1c1c1c;
+      --card-hover: #222222;
+      --border: rgba(180, 190, 210, 0.12);
+      --border-strong: rgba(180, 190, 210, 0.24);
+      --text: #e8eef6;
+      --muted: #7d8a9c;
+      --accent: #3d6fad;
+      --accent-light: #8fb6dc;
       --radius: 8px;
-      --shadow: 0 20px 70px rgba(0, 6, 20, 0.62);
-      --font-sans: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+      --font-sans: "Roboto", "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
       font-family: var(--font-sans);
     }
 
@@ -43,22 +42,8 @@
       min-height: 100vh;
       margin: 0;
       overflow-x: hidden;
-      background:
-        radial-gradient(circle at 50% 15%, rgba(47, 107, 255, 0.13), transparent 32rem),
-        var(--bg);
+      background: var(--bg);
       color: var(--text);
-    }
-
-    body::before {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      content: "";
-      background-image:
-        linear-gradient(rgba(120, 170, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(120, 170, 255, 0.025) 1px, transparent 1px);
-      background-size: 44px 44px;
     }
 
     a {
@@ -76,8 +61,7 @@
     .navbar {
       height: 64px;
       border-bottom: 1px solid var(--border);
-      background: rgba(6, 10, 20, 0.86);
-      backdrop-filter: blur(20px);
+      background: var(--bg);
     }
 
     .nav-inner,
@@ -135,35 +119,20 @@
     }
 
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-block;
       margin-bottom: 12px;
-      border: 1px solid rgba(56, 208, 255, 0.22);
-      border-left: 3px solid var(--accent-light);
-      border-radius: 0 4px 4px 0;
-      padding: 5px 13px;
-      background: rgba(56, 208, 255, 0.08);
-      color: var(--accent-light);
-      font: 600 0.7rem/1.2 var(--font-mono);
-      letter-spacing: 0.11em;
+      color: var(--muted);
+      font: 500 0.74rem/1.2 var(--font-mono);
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent-light);
-      box-shadow: 0 0 10px var(--accent-light);
-      content: "";
     }
 
     h1 {
       margin: 0 0 8px;
-      font-size: clamp(1.9rem, 5vw, 3.1rem);
-      line-height: 1.08;
-      letter-spacing: -0.04em;
+      font-size: clamp(1.85rem, 4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
     }
 
     .subtitle {
@@ -177,7 +146,6 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       background: var(--card);
-      box-shadow: var(--shadow);
     }
 
     .stage {
@@ -203,9 +171,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background:
-        radial-gradient(circle, rgba(47, 107, 255, 0.12), transparent 55%),
-        var(--card);
+      background: var(--card);
       transition: opacity 300ms ease, visibility 300ms ease;
     }
 
@@ -223,8 +189,8 @@
       width: 48px;
       height: 48px;
       margin: 0 auto 18px;
-      border: 5px solid rgba(75, 147, 255, 0.18);
-      border-top-color: var(--accent-light);
+      border: 5px solid rgba(61, 111, 173, 0.2);
+      border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 800ms linear infinite;
     }
@@ -245,7 +211,7 @@
       height: 7px;
       overflow: hidden;
       border: 1px solid var(--border-strong);
-      border-radius: 99px;
+      border-radius: 6px;
       background: rgba(255, 255, 255, 0.05);
     }
 
@@ -253,8 +219,7 @@
       width: 0;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--accent), var(--accent-light));
-      box-shadow: 0 0 14px rgba(56, 208, 255, 0.5);
+      background: var(--accent);
       transition: width 200ms ease;
     }
 
@@ -289,21 +254,21 @@
     }
 
     .source-link {
-      color: #6da0ff;
+      color: var(--accent-light);
       font-weight: 600;
       white-space: nowrap;
       transition: color 180ms ease;
     }
 
     .source-link:hover {
-      color: var(--accent-light);
+      color: #c5daf0;
     }
 
     footer {
       border-top: 1px solid var(--border);
       padding: 24px 0;
       background: var(--bg-soft);
-      color: #5f7291;
+      color: var(--muted);
       font-size: 0.8rem;
       text-align: center;
     }
