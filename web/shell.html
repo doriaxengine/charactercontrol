@@ -156,7 +156,11 @@
       background: #000;
     }
 
+    /* The attributes seed the same 16:9 ratio before Doriax synchronizes the
+       backing buffer with this CSS size. */
     #canvas {
+      position: absolute;
+      inset: 0;
       display: block;
       width: 100%;
       height: 100%;
@@ -340,7 +344,7 @@
 
       <section class="game-card" aria-label="Character Control demo">
         <div class="stage" id="stage">
-          <canvas id="canvas" tabindex="0" oncontextmenu="event.preventDefault()" aria-label="Interactive game canvas"></canvas>
+          <canvas id="canvas" width="1280" height="720" tabindex="0" oncontextmenu="event.preventDefault()" aria-label="Interactive game canvas"></canvas>
           <div class="loading" id="loading" role="status" aria-live="polite">
             <div class="loading-content">
               <div class="spinner" aria-hidden="true"></div>
@@ -380,44 +384,11 @@
     var loading = document.getElementById('loading');
     var statusElement = document.getElementById('status');
     var progressElement = document.getElementById('progress');
-    var changeCanvasSize = null;
-    var resizeTimer = null;
-    var lastWidth = 0;
-    var lastHeight = 0;
     var totalDependencies = 0;
 
     function setProgress(value) {
       progressElement.style.width = Math.max(0, Math.min(100, value)) + '%';
     }
-
-    function registerCanvasTargets() {
-      if (typeof specialHTMLTargets === 'undefined') return;
-      specialHTMLTargets[''] = canvas;
-      specialHTMLTargets['#canvas'] = canvas;
-      specialHTMLTargets['!canvas'] = canvas;
-    }
-
-    function resizeGame() {
-      if (!stage) return;
-      if (!changeCanvasSize && typeof Module.cwrap === 'function') {
-        changeCanvasSize = Module.cwrap('changeCanvasSize', null, ['number', 'number']);
-      }
-      if (!changeCanvasSize) return;
-
-      var width = Math.floor(stage.clientWidth);
-      var height = Math.floor(stage.clientHeight);
-      if (!width || !height || (width === lastWidth && height === lastHeight)) return;
-
-      lastWidth = width;
-      lastHeight = height;
-      registerCanvasTargets();
-      changeCanvasSize(width, height);
-    }
-
-    window.addEventListener('resize', function() {
-      window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(resizeGame, 100);
-    });
 
     // Keep focus on the canvas when interacting with the game stage.
     stage.addEventListener('pointerdown', function() {
@@ -439,9 +410,7 @@
 
     var Module = {
       canvas: canvas,
-      preRun: [registerCanvasTargets],
       postRun: [function() {
-        resizeGame();
         canvas.focus({ preventScroll: true });
         loading.classList.add('hidden');
       }],
