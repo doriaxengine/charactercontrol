@@ -1,6 +1,4 @@
 name: CharacterControl
-nextSceneId: 2
-selectedScene: 1
 canvasWidth: 1280
 canvasHeight: 720
 scalingMode: fitwidth
@@ -12,84 +10,6 @@ windowHeight: 720
 windowResizable: true
 luaDir: .
 startSceneId: 1
-terrainEditor:
-  brushMode: Raise
-  brushShape: Circle
-  brushFalloff: Smooth
-  brushSize: 4
-  brushStrength: 0.3
-  flattenHeight: 0.5
-  heightMapResolution: 512
-  blendMapResolution: 512
-  normalizeBlendPaint: true
-  heightMapStartAtMiddle: true
-  flattenPickOnStroke: true
-tabs:
-  - type: codeeditor
-    filepath: scripts/CharacterController.h
-  - type: codeeditor
-    filepath: scripts/CharacterController.cpp
-  - type: scene
-    filepath: Main Scene.scene
-  - type: codeeditor
-    filepath: scripts/PenguinController.h
-  - type: codeeditor
-    filepath: scripts/PenguinController.cpp
 scenes:
   - filepath: Main Scene.scene
-    showAllJoints: false
-    showAllBones: false
-    showAllBodies: false
-    hideCameraView: false
-    hideLightIcons: false
-    hideSoundIcons: false
-    hideContainerGuides: false
-    showOrigin: true
-    showGrid3D: true
-    hideSelectionOutline: false
-    disableFaceCulling: false
-    showGrid2D: false
-    gridSpacing2D: 50
-    gridSpacing3D: 1
-    snapToGrid: false
-    snapTile: false
-    snapRotation: false
-    rotationSnapDegrees: 15
-    editorCamera:
-      type: camera_perspective
-      target: [1.2056656, 1.4091547, -1.5008744]
-      up: [0, 1, 0]
-      yfov: 0.75
-      aspect: 2.724784
-      nearClip: 0.3
-      farClip: 4000
-      position: [6.581585, 5.276493, 4.3244896]
   - filepath: UI Scene.scene
-    showAllJoints: false
-    showAllBones: false
-    showAllBodies: false
-    hideCameraView: false
-    hideLightIcons: false
-    hideSoundIcons: false
-    hideContainerGuides: false
-    showOrigin: true
-    showGrid3D: true
-    hideSelectionOutline: false
-    disableFaceCulling: false
-    showGrid2D: false
-    gridSpacing2D: 50
-    gridSpacing3D: 1
-    snapToGrid: false
-    snapTile: false
-    snapRotation: false
-    rotationSnapDegrees: 15
-    editorCamera:
-      type: camera_ui
-      target: [-50, -50, 0]
-      up: [0, 1, 0]
-      yfov: 0.75
-      aspect: 2.724784
-      nearClip: -10000
-      farClip: 10000
-      position: [-50, -50, 1]
-      zoom: 1

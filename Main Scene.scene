@@ -3,6 +3,9 @@ name: Main Scene
 scene:
   backgroundColor: [0.25, 0.45, 0.65, 1]
   shadowQuality: low
+  meshLodEnabled: true
+  meshLodThreshold: 1
+  depthPrepassEnabled: false
   lightState: on
   globalIlluminationIntensity: 0.2
   globalIlluminationColor: [1, 1, 1]
@@ -34,15 +37,23 @@ maxValues:
   maxTilemapTiles: 0
   maxExternalBuffers: 11
   maxSpriteFrames: 0
+  maxBones: 128
 shaderKeys:
-  - 8589935704
-  - 8589935706
-  - 8589942874
-  - 8623497306
-  - 8623497438
-  - 12884901888
-  - 17179869184
-  - 17179869186
+  - type: mesh
+    properties: 1112
+  - type: mesh
+    properties: 1114
+  - type: mesh
+    properties: 8282
+  - type: mesh
+    properties: 33562714
+  - type: mesh
+    properties: 33562846
+  - type: sky
+  - type: depth
+  - type: depth
+    properties: 2
+  - type: blit
 childScenes:
   - id: 2
     startActive: true
@@ -217,6 +228,7 @@ entities:
               metallicFactor: 1
               roughnessFactor: 1
               alphaCutoff: 0.5
+              foliageTransmission: 0
               alphaMode: AUTO
               emissiveFactor: [0, 0, 0]
               baseColorTexture:
@@ -243,6 +255,7 @@ entities:
             hasTexCoord2: false
             hasNormalMap: false
             hasTangent: false
+            hasVertexColor3: false
             hasVertexColor4: true
             hasTextureRect: false
             hasSkinning: false
@@ -394,6 +407,9 @@ entities:
         receiveIBL: false
         castShadows: true
         receiveShadows: true
+        lodEnabled: true
+        lodBias: 1
+        renderInReflectionProbes: true
         shadowsBillboard: true
         transparent: false
         cullingMode: back
@@ -401,6 +417,15 @@ entities:
       body3d:
         type: static
         motionQuality: discrete
+        sensor: false
+        gravityFactor: 1
+        allowedDOFs:
+          translationX: true
+          translationY: true
+          translationZ: true
+          rotationX: true
+          rotationY: true
+          rotationZ: true
         numShapes: 1
         shapes:
           - type: mesh
@@ -452,6 +477,7 @@ entities:
         farClip: 200
         renderToTexture: false
         transparentSort: true
+        depthTest: true
         useTarget: false
         autoResize: true
         framebufferWidth: 512
@@ -488,12 +514,13 @@ entities:
               metallicFactor: 0
               roughnessFactor: 1
               alphaCutoff: 0.5
+              foliageTransmission: 0
               alphaMode: ALPHA_OPAQUE
               emissiveFactor: [0, 0, 0]
               baseColorTexture:
                 textureType: 2D
                 source: id
-                id: /home/eduardo/Development/penguinland/person.glb|gltf-image|1|s1
+                id: /home/eduardo/Development/charactercontrol/person.glb|gltf-image|1|s1
                 minFilter: linear_mipmap_linear
                 magFilter: linear
                 wrapU: repeat
@@ -502,7 +529,7 @@ entities:
               metallicRoughnessTexture:
                 textureType: 2D
                 source: id
-                id: /home/eduardo/Development/penguinland/person.glb|gltf-image|0|s0
+                id: /home/eduardo/Development/charactercontrol/person.glb|gltf-image|0|s0
                 minFilter: linear_mipmap_linear
                 magFilter: linear
                 wrapU: repeat
@@ -511,7 +538,7 @@ entities:
               normalTexture:
                 textureType: 2D
                 source: id
-                id: /home/eduardo/Development/penguinland/person.glb|gltf-image|2|s2
+                id: /home/eduardo/Development/charactercontrol/person.glb|gltf-image|2|s2
                 minFilter: linear_mipmap_linear
                 magFilter: linear
                 wrapU: repeat
@@ -532,12 +559,15 @@ entities:
             hasTexCoord2: true
             hasNormalMap: true
             hasTangent: false
+            hasVertexColor3: false
             hasVertexColor4: false
             hasTextureRect: false
             hasSkinning: true
             hasMorphTarget: false
             hasMorphNormal: false
             hasMorphTangent: false
+            normAdjustJoint: 255
+            normAdjustWeight: 1
         normAdjustJoint: 255
         normAdjustWeight: 1
         morphWeights: [0, 0, 0, 0, 0, 0, 0, 0]
@@ -554,13 +584,16 @@ entities:
         receiveIBL: false
         castShadows: true
         receiveShadows: true
+        lodEnabled: true
+        lodBias: 1
+        renderInReflectionProbes: true
         shadowsBillboard: true
         transparent: false
         cullingMode: back
         windingOrder: ccw
       script:
         scripts:
-          - type: script_class
+          - type: cpp
             path: scripts/CharacterController.cpp
             headerPath: scripts/CharacterController.h
             className: CharacterController
@@ -899,6 +932,15 @@ entities:
       body3d:
         type: dynamic
         motionQuality: discrete
+        sensor: false
+        gravityFactor: 1
+        allowedDOFs:
+          translationX: true
+          translationY: true
+          translationZ: true
+          rotationX: true
+          rotationY: true
+          rotationZ: true
         numShapes: 1
         shapes:
           - type: capsule
