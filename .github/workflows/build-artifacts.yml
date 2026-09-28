@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    uses: doriaxengine/doriax-project-example-ci/.github/workflows/build-project.yml@v1
+    uses: doriaxengine/doriax-project-example-ci/.github/workflows/build-project.yml@v2
     with:
       title: Character Control
       subtitle: Control a character with real-time 3D physics and animations.
